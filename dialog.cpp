@@ -5,6 +5,7 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlResult>
+#include <QStringBuilder>
 #include <QtSql/QSql>
 #include <QtSql/QSqlDatabase>
 #include <QtWidgets>
@@ -15,14 +16,17 @@ $ docker run --name=test-mysql --env="MYSQL_ROOT_PASSWORD=mypassword" mysql
 $ apt-get install mysql-client
 $ mysql -uroot -pmypassword -h 172.17.0.20 -P 3306
 
-
+-------------------------------------------------------------
 QSqlDatabase: QMYSQL driver not loaded
 taras@taras-774:~$ sudo apt-get install libqt4-sql-mysql
 sudo apt-get install libqt5sql5-mysql
+--------------------------------------------------------------
+
+pwd = /home/taras/Qt/basicl/BasicLayout
 */
 
 void Dialog::createMySqlDataBase() {
-  QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+  db = QSqlDatabase::addDatabase("QMYSQL");
   db.setHostName("172.17.0.2");
   db.setDatabaseName("test_database");
   db.setUserName("root");
@@ -31,7 +35,11 @@ void Dialog::createMySqlDataBase() {
   if (not db.open()) {
     qDebug() << (db.open() ? "Open" : "Close");
   }
+}
 
+QStringList Dialog::getQueryResult() {
+
+  QStringList resultList;
   // Read from db
   QSqlQuery myQuery = db.exec("select * from test;");
   while (myQuery.next()) {
@@ -41,15 +49,39 @@ void Dialog::createMySqlDataBase() {
     QSqlField field2 = res.field("firstname");
     QString name = field2.value().toString();
 
-    qDebug() << "DB Result: " << id << " : " << name;
+    QString result(QString::number(id) + " : " + name);
+    resultList.append(result);
   }
+  return resultList;
+}
 
-  db.close();
+void Dialog::closeDataBase() { db.close(); }
+
+void Dialog::addIdNameToDataBase(int id, QString name) {
+  QSqlQuery myQuery;
+  myQuery.prepare("insert into test (id, firstname) values (:id, :firstname);");
+  myQuery.bindValue(":id", id);
+  myQuery.bindValue(":firstname", name);
+
+  myQuery.exec();
+}
+
+void Dialog::deleteRowId(int id) {
+  QSqlQuery myQuery;
+  myQuery.prepare("delete from test where id = :myId;");
+  myQuery.bindValue(":myId", id);
+
+  myQuery.exec();
 }
 
 Dialog::Dialog() {
 
   createMySqlDataBase();
+  QStringList resultList = getQueryResult();
+  qDebug() << resultList;
+  addIdNameToDataBase(2, "Simon");
+  deleteRowId(2);
+  closeDataBase();
 
   createMenu();
   createBoxLayout();

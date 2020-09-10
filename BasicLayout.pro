@@ -25,12 +25,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        dialog.cpp
+        dialog.cpp \
+    mainwindow.cpp \
+    scribblearea.cpp
 
 HEADERS += \
         dialog.h \
-    scribble.h \
+    mainwindow.h \
+    scribblearea.h \
     mainwindow.h
 
 FORMS += \
         dialog.ui
+
+RESOURCES += \
+    ressources.qrc

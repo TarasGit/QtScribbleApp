@@ -1,50 +1,31 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
+#pragma once
 #include <QList>
-#include <QMainWindow>
+#include <QtWidgets>
 
+namespace ns {
 class ScribbleArea;
+}
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
+class MainWindow : public QMainWindow {
+  Q_OBJECT
+
 public:
-//    MainWindow(QWidget *parent = nullptr);
-//
-//protected:
-//    void closeEvent(QCloseEvent *event) override;
-//
-// private slots:
-//    void open();
-//    void save();
-//    void penColor();
-//    void penWidth();
-//    void about();
+  MainWindow();
 
-//private:
-//    void createActions();
-//    void createMenus();
-//    void maybeSave();
-//    bool saveFile(const QByteArray &fileFormat);
+protected:
+private:
+  void createActions();
+  void createMenus();
+  ns::ScribbleArea *scribbleArea;
 
-    ScribbleArea *ScribbleArea;
+  QMenu *fileMenu;
+  QMenu *optionMenu;
+  QMenu *helpMenu;
 
-    QMenu *saveAsMenu;
-    QMenu *fileMenu;
-    QMenu *optionMenu;
-    QMenu *helpMenu;
-
-    QAction *openAct;
-    QList<QAction *> saveAsActs;
-    QAction *exitAct;
-    QAction *penColorAct;
-    QAction *penWidthAct;
-    QAction *printAct;
-    QAction *clearScreenAct;
-    QAction *aboutAct;
-    QAction *aboutQtAct;
+  QAction *openImageAction;
+  QList<QAction *> *fileFormatAction;
+  QAction *setWidthAction;
+  QAction *setColorAction;
+  QAction *aboutQtAction;
+  QAction *aboutAction;
 };
-
-
-#endif // MAINWINDOW_H

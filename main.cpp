@@ -1,11 +1,15 @@
 #include "dialog.h"
 #include <QApplication>
+#include <mainwindow.h>
+#include <scribblearea.h>
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    Dialog w;
-    w.show();
+int main(int argc, char *argv[]) {
+  QApplication a(argc, argv);
+  // Dialog w;
+  // ScribbleArea w;
+  MainWindow w;
 
-    return a.exec();
+  w.show();
+
+  return a.exec();
 }
