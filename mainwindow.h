@@ -1,10 +1,7 @@
 #pragma once
+#include "scribblearea.h"
 #include <QList>
 #include <QtWidgets>
-
-namespace ns {
-class ScribbleArea;
-}
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -14,17 +11,18 @@ public:
 
 public slots:
   bool openImage();
-  bool saveImage();
   void setColor();
+  bool saveImage();
   void setWidth();
   void aboutQt();
   void about();
 
 protected:
 private:
+  int initValue;
   void createActions();
   void createMenus();
-  ns::ScribbleArea *scribbleArea;
+  ScribbleArea *scribbleArea;
 
   QMenu *fileMenu;
   QMenu *formatsMenu;

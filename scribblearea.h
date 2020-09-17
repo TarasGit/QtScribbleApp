@@ -8,9 +8,10 @@ class ScribbleArea : public QWidget {
 public:
   ScribbleArea();
   void openImage(const QString &filName);
-  void saveImage(const QString &fileName);
-  void setPenColor(const QColor newColor);
+  void saveImage(const QString &path, const QByteArray format);
+  void setPenColor(QColor newColor);
   void setPenWidth(const int newWidth);
+  void drawLineTo(QPoint point);
 
   // QWidget interface
 protected:
@@ -25,4 +26,5 @@ private:
   QPoint startPos;
   QPoint endPos;
 };
+
 #endif // SCRIBBLE_H

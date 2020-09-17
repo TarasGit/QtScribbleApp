@@ -1,22 +1,45 @@
 #include "scribblearea.h"
 #include <QDebug>
+#include <QFileDialog>
 
 ScribbleArea::ScribbleArea() {}
 
-void ScribbleArea::openImage(const QString &fileName) {
-  QImage image(fileName);
+void ScribbleArea::openImage(const QString &fileName) { image.load(fileName); }
+
+void ScribbleArea::saveImage(const QString &path, const QByteArray array) {
+  QString mypath(path);
+  if (image.save(mypath.append(".").append(QString(array)),
+                 QString(array).toUpper().toStdString().c_str())) {
+    qDebug() << "Image saved: " << path << "." << QString(array);
+    QMessageBox::information(this, tr("Save image"),
+                             tr("Image successfully saved"));
+  } else {
+    qDebug() << "Could not save the image";
+    QMessageBox::critical(this, tr("Save Image"), tr("Failed"));
+  }
+}
+
+void ScribbleArea::setPenColor(QColor newColor) {
+  this->penColor = newColor;
+  qDebug() << "Scribble pen Color:" << newColor.name();
+}
+
+void ScribbleArea::setPenWidth(const int newWidth) {
+  this->penWidth = newWidth;
+}
+
+void ScribbleArea::drawLineTo(QPoint point) {
+  QPainter painter(&image);
+  painter.setPen(
+      QPen(penColor, penWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+  painter.drawLine(startPos, point);
+  startPos = point;
+  update();
 }
 
 void ScribbleArea::paintEvent(QPaintEvent *event) {
   QPainter painter(this);
-
-  QBrush br(Qt::blue, Qt::SolidPattern);
-
-  painter.setBrush(br);
-  painter.drawRect(20, endPos.y(), 100, 100);
-
-  painter.setPen(Qt::red);
-  // painter.drawLine(startPos, endPos);
+  painter.drawImage(event->rect(), image, event->rect());
 }
 
 void ScribbleArea::mousePressEvent(QMouseEvent *event) {
@@ -29,8 +52,9 @@ void ScribbleArea::mousePressEvent(QMouseEvent *event) {
 }
 
 void ScribbleArea::mouseMoveEvent(QMouseEvent *event) {
-  if (event->button() == Qt::LeftButton) {
+  if (event->buttons() & Qt::LeftButton) {
     qDebug() << "Left button clicked";
+    drawLineTo(event->pos());
   } else {
     qDebug() << "Not Left Button";
   }
