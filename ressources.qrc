@@ -1,9 +1,10 @@
 <RCC>
     <qresource prefix="/">
-        <file>ressources/pic.png</file>
         <file>../../../Bilder/wurfel.png</file>
         <file>../../../Bilder/index.png</file>
-        <file>ressources/wurfel.png</file>
-        <file>ressources/index.png</file>
+        <file>ressources/red_star.png</file>
+        <file>ressources/star.png</file>
+        <file>ressources/water.png</file>
+        <file>ressources/light.png</file>
     </qresource>
 </RCC>

@@ -8,25 +8,24 @@
 
 void MainWindow::createActions() {
 
-  openImageAction = new QAction(QIcon(":/ressources/wurfel.png"), tr("Open"));
+  openImageAction = new QAction(QIcon(":/ressources/light.png"), tr("Open"));
 
   for (QByteArray image_format : QImageWriter::supportedImageFormats()) {
 
-    QAction *tmp = new QAction(QIcon(":/ressources/index.png"),
+    QAction *tmp = new QAction(QIcon(":/ressources/red_star.png"),
                                tr(image_format.toStdString().c_str()));
     tmp->setData(image_format);
     fileFormatAction.append(tmp);
     connect(tmp, SIGNAL(triggered(bool)), this, SLOT(saveImage()));
   }
-  exitAction = new QAction(QIcon(":/ressources/pic.pgng"), tr("Exit"));
+  exitAction = new QAction(QIcon(":/ressources/water.png"), tr("Exit"));
 
   setWidthAction =
-      new QAction(QIcon(":/ressources/wurfel.png"), tr("Pen Width"));
-  setColorAction =
-      new QAction(QIcon(":/ressources/index.png"), tr("Pen Color"));
+      new QAction(QIcon(":/ressources/light.png"), tr("Pen Width"));
+  setColorAction = new QAction(QIcon(":/ressources/star.png"), tr("Pen Color"));
 
-  aboutAction = new QAction(QIcon(":/ressources/wurfel.png"), tr("About"));
-  aboutQtAction = new QAction(QIcon(":/ressources/pic.png"), tr("About Qt"));
+  aboutAction = new QAction(QIcon(":/ressources/light.png"), tr("About"));
+  aboutQtAction = new QAction(QIcon(":/ressources/water.png"), tr("About Qt"));
 }
 
 void MainWindow::createMenus() {
